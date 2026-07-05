@@ -36,3 +36,4 @@ $routes->get('/penugasan/(:num)', 'Laporan::penugasan/$1');
 $routes->post('/simpan-penugasan/(:num)', 'Laporan::simpanPenugasan/$1');
 $routes->get('/simulasi-reminder', 'Dashboard::simulasiReminder');
 $routes->get('/simulasi-eskalasi', 'Dashboard::simulasiEskalasi');
+$routes->get('/laporan-admin', 'Dashboard::laporanAdmin');

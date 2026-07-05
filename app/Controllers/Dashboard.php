@@ -226,4 +226,14 @@ public function simulasiEskalasi()
 
     return redirect()->to('/dashboard-admin');
 }
+public function laporanAdmin()
+{
+    $model = new \App\Models\LaporanModel();
+
+    $data['laporan'] = $model
+        ->orderBy('id_laporan', 'DESC')
+        ->findAll();
+
+    return view('laporan_admin', $data);
+}
 }

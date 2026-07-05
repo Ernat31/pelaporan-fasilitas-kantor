@@ -141,6 +141,9 @@ margin-bottom:20px;
     <a href="/data-laporan" class="menu">
         Verifikasi Laporan Kerusakan
     </a>
+     <a href="/laporan-admin" class="menu" style="background:#16a34a;">
+        📄 Laporan
+    </a>
 
 </div>
 
