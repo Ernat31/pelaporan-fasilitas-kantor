@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Dashboard Karyawan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
@@ -103,6 +104,141 @@
             color:#dc2626;
         }
 
+*{
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    padding:12px;
+}
+
+.container{
+    width:96%;
+    max-width:1500px;
+}
+
+.header{
+    padding:14px 20px;
+    margin-bottom:14px;
+    border-radius:14px;
+}
+
+.header h1{
+    font-size:32px;
+    margin:0 0 3px 0;
+}
+
+.header p{
+    font-size:15px;
+    margin:0;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:320px 1fr;
+    gap:14px;
+    align-items:stretch;
+}
+
+.left-panel{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.stats{
+    display:block;
+    margin:0;
+}
+
+.stat-card{
+    padding:18px;
+    min-height:115px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.stat-card h2{
+    font-size:38px;
+    line-height:1;
+    margin:0 0 8px 0;
+}
+
+.stat-card p{
+    font-size:14px;
+    margin:0;
+}
+
+.card{
+    padding:16px;
+    margin:0;
+    border-radius:14px;
+}
+
+.card h2{
+    font-size:20px;
+    margin:0 0 10px 0;
+}
+
+.menu{
+    padding:10px 12px;
+    margin-top:8px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:600;
+    transition:.2s;
+}
+
+.menu:hover{
+    transform:translateY(-2px);
+    opacity:.92;
+}
+
+.status-card{
+    height:500px;
+    overflow-y:auto;
+}
+
+.laporan{
+    padding:12px;
+    margin-top:10px;
+    font-size:13px;
+    line-height:1.7;
+    background:#f8fafc;
+}
+
+.laporan b{
+    font-size:14px;
+}
+
+.laporan img{
+    width:180px !important;
+    max-height:130px;
+    object-fit:cover;
+}
+
+.logout-box{
+    text-align:center;
+}
+
+.logout{
+    background:#dc2626;
+}
+
+@media(max-width:800px){
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .status-card{
+        height:auto;
+        max-height:500px;
+    }
+}
     </style>
 
 </head>
@@ -115,26 +251,41 @@
         <p>Selamat datang di Pelaporan Fasilitas Kantor</p>
     </div>
 
-    <div class="stats">
+   <div class="dashboard-grid">
 
-        <div class="stat-card">
-            <h2><?= count($laporan); ?></h2>
-            <p>Total Laporan Saya</p>
+    <div class="left-panel">
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <h2><?= count($laporan); ?></h2>
+                <p>Total Laporan Saya</p>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>➕ Buat Laporan Baru</h2>
+
+            <a href="/laporan" class="menu">
+                Buat Laporan
+            </a>
+
+        </div>
+
+        <div class="card logout-box">
+
+            <a href="/logout" class="menu logout">
+                Logout
+            </a>
+
         </div>
 
     </div>
 
-    <div class="card">
 
-        <h2>➕ Buat Laporan Baru</h2>
-
-        <a href="/laporan" class="menu">
-            Buat Laporan
-        </a>
-
-    </div>
-
-    <div class="card">
+    <div class="card status-card">
 
         <h2>📋 Status Laporan Saya</h2>
 
@@ -148,17 +299,22 @@
 
                 <div class="laporan">
 
-                    <b><?= $row['nama_fasilitas']; ?></b><br><br>
+                    <b><?= $row['nama_fasilitas']; ?></b>
 
-                    Lokasi :
-                    <?= $row['lokasi']; ?><br>
+                    <br>
 
-                    Jenis Kerusakan :
-                    <?= $row['jenis_kerusakan']; ?><br>
+                    Lokasi : <?= $row['lokasi']; ?>
+
+                    <br>
+
+                    Jenis Kerusakan : <?= $row['jenis_kerusakan']; ?>
+
+                    <br>
 
                     Status :
 
                     <?php
+
                     $status = $row['status_laporan'];
 
                     if($status == "Menunggu Verifikasi"){
@@ -176,41 +332,44 @@
                     else{
                         echo "<span class='status'>$status</span>";
                     }
+
                     ?>
+
                     <?php if($row['status_laporan'] == "Selesai"): ?>
 
-<hr style="margin:15px 0;">
+                        <hr style="margin:10px 0;">
 
-<b>👷 Teknisi :</b>
-<?= $row['nama_teknisi']; ?>
+                        <b>👷 Teknisi :</b>
+                        <?= $row['nama_teknisi']; ?>
 
-<br><br>
+                        <br>
 
-<b>📷 Bukti Hasil Perbaikan</b><br><br>
+                        <b>📷 Bukti Hasil Perbaikan</b>
 
-<?php if(!empty($row['foto_hasil'])): ?>
+                        <br>
 
-<img src="/uploads/<?= $row['foto_hasil']; ?>"
-     style="
-        width:280px;
-        border-radius:10px;
-        border:1px solid #ddd;
-        box-shadow:0 2px 8px rgba(0,0,0,.15);
-     ">
+                        <?php if(!empty($row['foto_hasil'])): ?>
 
-<?php else: ?>
+                            <img
+                                src="/uploads/<?= $row['foto_hasil']; ?>"
+                                alt="Hasil Perbaikan"
+                            >
 
-Belum ada foto.
+                        <?php else: ?>
 
-<?php endif; ?>
+                            Belum ada foto.
 
-<br><br>
+                        <?php endif; ?>
 
-<b>📝 Catatan Teknisi</b><br>
+                        <br>
 
-<?= !empty($row['catatan_perbaikan']) ? $row['catatan_perbaikan'] : '-' ?>
+                        <b>📝 Catatan Teknisi :</b>
 
-<?php endif; ?>
+                        <?= !empty($row['catatan_perbaikan'])
+                            ? $row['catatan_perbaikan']
+                            : '-' ?>
+
+                    <?php endif; ?>
 
                 </div>
 
@@ -220,11 +379,6 @@ Belum ada foto.
 
     </div>
 
-    <div class="card">
-
-        <a href="/logout" class="menu logout">
-            Logout
-        </a>
 
     </div>
 
